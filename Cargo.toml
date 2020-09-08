@@ -1,0 +1,123 @@
+[package]
+name = "staticvec"
+description = "Implements a fixed-capacity stack-allocated Vec alternative backed by an array, using const generics."
+repository = "https://github.com/slightlyoutofphase/staticvec"
+documentation = "https://docs.rs/staticvec/"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+version = "0.10.3"
+authors = ["SlightlyOutOfPhase <slightlyoutofphase@gmail.com>"]
+keywords = ["vec", "array", "no_std", "vector", "stack"]
+categories = ["data-structures", "no-std"]
+edition = "2018"
+include = ["Cargo.toml", "rustfmt.toml", "src/**/*.rs", "README.md", "LICENSE-APACHE", "LICENSE-MIT"]
+
+[badges.maintenance]
+status = "actively-developed"
+
+[badges.travis-ci]
+repository = "slightlyoutofphase/staticvec"
+
+[badges.appveyor]
+repository = "slightlyoutofphase/staticvec"
+
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = 'abort'
+incremental = false
+overflow-checks = false
+
+[profile.dev]
+opt-level = 0
+debug = true
+rpath = false
+lto = false
+debug-assertions = true
+codegen-units = 16
+panic = 'unwind'
+incremental = false
+overflow-checks = true
+
+[profile.bench]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+incremental = false
+overflow-checks = false
+
+[profile.test]
+incremental = false
+
+[features]
+std = []
+serde_support = ["serde"]
+serde_json_support = ["serde_json"]
+default = ["std"]
+
+[[test]]
+name = "test_staticvec"
+path = "test/test_staticvec.rs"
+
+[[test]]
+name = "test_staticstring"
+path = "test/test_staticstring.rs"
+
+[[test]]
+name = "test_staticheap"
+path = "test/test_staticheap.rs"
+
+[[bench]]
+name = "arrayvec_arraystring_suite"
+path = "benchmark/arrayvec_arraystring_suite.rs"
+
+[[bench]]
+name = "arrayvec_extend_suite"
+path = "benchmark/arrayvec_extend_suite.rs"
+
+[[bench]]
+name = "clone_suite"
+path = "benchmark/clone_suite.rs"
+
+[[bench]]
+name = "push_pop_suite"
+path = "benchmark/push_pop_suite.rs"
+
+[[bench]]
+name = "smallvec_full_suite"
+path = "benchmark/smallvec_full_suite.rs"
+
+[[bench]]
+name = "heap_suite"
+path = "benchmark/heap_suite.rs"
+
+[[example]]
+name = "main_demo"
+path = "demo/main_demo.rs"
+required-features = ["std"]
+
+[[example]]
+name = "string_demo"
+path = "demo/string_demo.rs"
+required-features = ["std"]
+
+[[example]]
+name = "serde_support_demo"
+path = "demo/serde_support_demo.rs"
+required-features = ["std", "serde_support", "serde_json_support"]
+
+[dependencies]
+serde = { optional = true, version = "1.0", features = ["derive"] }
+serde_json = { optional = true, version = "1.0" }
+
+[dev-dependencies]
+# These are used in the test suite.
+cool_asserts = "1.0.0"
+oorandom = "11.1.0"
